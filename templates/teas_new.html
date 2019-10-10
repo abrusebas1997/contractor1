@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class='row'>
+    <div class='col-sm-6 col-sm-offset-3'>
+		<form method='POST' action='/mugs'>
+		    {% include "partials/teas_form.html" %}
+		</form>
+	</div>
+</div>
+
+<div class="row">
+	<div class='col-sm-6 col-sm-offset-3'>
+		<a href="/"><button class="btn btn-primary">Cancel</button></a>
+	</div>
+</div>
+{% endblock %}

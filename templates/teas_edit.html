@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<form method='POST' action='/teas/{{tea._id}}'>
+<div class='row'>
+    <div class='col-sm-6 col-sm-offset-3'>
+		<form method='POST' action='/teas/{{tea._id}}'>
+		    {% include "partials/teas_form.html" %}
+		    <div class="form-group">
+		    </div>
+		</form>
+	</div>
+</form>
+</div>
+
+<div class="row">
+	<div class='col-sm-6 col-sm-offset-3'>
+		<a href="/teas/{{tea._id}}"><button class="btn btn-danger">Cancel</button></a>
+	</div>
+</div>
+{% endblock %}

@@ -20,3 +20,16 @@ app = Flask(__name__)
 def teas_index():
 	# It's going to show the types of tea we have
 	return render_template("teas_index.html", teas=teas.find())
+
+@app.route("/teas", methods=["POST"])
+def playlists_submit():
+	tea = {
+		"tea_flavor": request.form.get("tea_flavor"),
+		"description": request.form.get("description"),
+		"price": request.form.get("price"),
+
+
+	}
+	tea_id = teas.insert_one(tea).inserted_id
+	print(tea_id)
+	return redirect(url_for("teas_show", tea_id = tea_id))

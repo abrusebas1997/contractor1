@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <!-- <h1>Tasty teas</h1> -->
+
+    <!-- <a href="/teas/new">Add a Mug</a> -->
+<div class="row">
+    {% for tea in teas %}
+		<div class="col-md-3">
+	        <h2><a href="/teas/{{tea._id}}">{{ tea.tea_flavor }}</a></h2>
+<!-- 	        <img width="240" height="240" src="/images/{{tea.color}}.png">
+
+ -->	        <p>${{ tea.price }}</p>
+	    </div>
+    {% endfor %}
+</div>
+{% endblock %}
