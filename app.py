@@ -1,12 +1,12 @@
 from flask import Flask, render_template, request, redirect, url_for, jsonify, make_response
-# from pymongo import MongoClient
-# from bson.objectid import ObjectId
-# import os
+from pymongo import MongoClient
+from bson.objectid import ObjectId
+import os
 
 host = os.environ.get('MONGODB_URI', 'mongodb://localhost:27017/Mondale')
 client = MongoClient(host=host)
 db = client.get_default_database()
-mugs = db.mugs
+teas = db.teas
 # users = db.users
 
 app = Flask(__name__)
@@ -27,7 +27,6 @@ def playlists_submit():
 		"tea_flavor": request.form.get("tea_flavor"),
 		"description": request.form.get("description"),
 		"price": request.form.get("price"),
-
 
 	}
 	tea_id = teas.insert_one(tea).inserted_id
