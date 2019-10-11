@@ -5,16 +5,18 @@ from app import app
 sample_tea_id = ObjectId("5d55cffc4a3d4031f42827a3")
 
 sample_tea = {
-	"tea_flavor" : "flavors",
+	"tea_name" : "Name of the Tea",
 	"description" : "This is a totally organic tea",
 	"price": "4",
+    "flavor" : "mint"
 }
 
 sample_form_data = {
 
-    "tea_flavor" : sample_tea['tea_flavor'],
+    "tea_name" : sample_tea['tea_name'],
 	"description" : sample_tea["description"],
-	"price": sample_tea["price"]
+	"price": sample_tea["price"],
+    "flavor" : sample_tea["flavor"]
 }
 
 class TeasTests(TestCase):

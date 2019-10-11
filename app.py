@@ -1,13 +1,14 @@
-from flask import Flask, render_template, request, redirect, url_for, jsonify, make_response
+from flask import Flask, render_template, request, redirect, url_for
 from pymongo import MongoClient
 from bson.objectid import ObjectId
 import os
 
-host = os.environ.get('MONGODB_URI', 'mongodb://localhost:27017/Mondale')
+
+host = os.environ.get('MONGODB_URI', 'mongodb://localhost:27017/Teas')
 client = MongoClient(host=host)
 db = client.get_default_database()
 teas = db.teas
-# users = db.users
+
 
 app = Flask(__name__)
 
@@ -24,11 +25,48 @@ def teas_index():
 @app.route("/teas", methods=["POST"])
 def playlists_submit():
 	tea = {
-		"tea_flavor": request.form.get("tea_flavor"),
+		"tea_name": request.form.get("tea_name"),
 		"description": request.form.get("description"),
 		"price": request.form.get("price"),
-
+        "flavor": request.form.get("flavor")
 	}
 	tea_id = teas.insert_one(tea).inserted_id
 	print(tea_id)
 	return redirect(url_for("teas_show", tea_id = tea_id))
+
+@app.route("/teas/<tea_id>")
+def teas_show(tea_id):
+	tea = teas.find_one({'_id' : ObjectId(tea_id)})
+	return render_template("teas_show.html", tea = tea)
+
+@app.route("/teas/new")
+def teas_new():
+	return render_template("teas_new.html", tea ={}, title ="New tea")
+
+@app.route("/teas/<tea_id>/edit")
+def teas_edit(tea_id):
+	tea = teas.find_one({"_id" : ObjectId(tea_id)})
+	return render_template("teas_edit.html", tea = tea, title = "Edit tea")
+
+@app.route("/teas/<tea_id>", methods = ['POST'])
+def teas_update(tea_id):
+	updated_tea = {
+		"tea_name": request.form.get("tea_name"),
+		"description": request.form.get("description"),
+		"price": request.form.get("price"),
+        "flavor": request.form.get("flavor")
+
+	}
+
+	teas.update_one( {"_id" : ObjectId(tea_id)}, {"$set" : updated_tea})
+	return redirect(url_for("teas_show", tea_id = tea_id))
+
+
+@app.route("/teas/<tea_id>/delete", methods=["POST"])
+def teas_delete(tea_id):
+	teas.delete_one({"_id" : ObjectId(tea_id)})
+	return redirect(url_for("teas_index"))
+
+
+if __name__ == "__main__":
+	app.run(debug=True, host='0.0.0.0', port=os.environ.get('PORT', 5000))
